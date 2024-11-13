@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int dp[102][1002];
+class Solution {
+public:
+   int O1Knapsack(vector<int>value,vector<int>weight,int W,int n) {
+      if(n==0 || W==0){
+         return 0;
+      }
+      if(dp[n][W]!=-1){
+         return dp[n][W];
+      }
+
+      if(weight[n-1]<=W){
+         return dp[n][W] =  max(value[n-1]+O1Knapsack(value,weight,W-weight[n-1],n-1),O1Knapsack(value,weight,W,n-1));
+      }
+      
+         return dp[n][W] = O1Knapsack(value,weight,W,n-1);
+   }
+};
+
+int main() {
+   memset(dp,-1,sizeof(dp));
+   int n, W;
+   cout << "Enter the number of items: ";
+   cin >> n;
+
+   cout << "Enter the maximum weight of the knapsack: ";
+   cin >> W;
+
+   vector<int> value(n), weight(n);
+
+   for (int i = 0; i < n; i++) {
+      cout << "Enter value and weight for item " << i + 1 << ": ";
+      cin >> value[i] >> weight[i];
+   }
+
+   Solution obj;
+   double ans = obj.O1Knapsack(value, weight,W,n);
+   cout << "The maximum value is " << ans;
+   return 0;
+}
+
+
+// Enter the number of items: 4
+// Enter the maximum weight of the knapsack: 50
+// Enter value and weight for item 1: 60 10
+// Enter value and weight for item 2: 100 20
+// Enter value and weight for item 3: 120 30
+// Enter value and weight for item 4: 90 40
+// The maximum value is 220
